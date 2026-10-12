@@ -31,16 +31,21 @@ function renderProducts() {
 }
 
 function addToCart(id) {
-  const product = products.find((p) => p.id === id);
-  if (!product) {
-    return;
+  const existingItem = cart.find((item) => item.id === id);
+  if (existingItem) {
+    existingItem.qty++;
+  } else {
+    const product = products.find((p) => p.id === id);
+    if (!product) {
+      return;
+    }
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      qty: 1,
+    });
   }
-  cart.push({
-    id: product.id,
-    name: product.name,
-    price: product.price,
-    qty: 1,
-  });
   renderCart();
 }
 
