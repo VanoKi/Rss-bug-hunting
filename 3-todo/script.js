@@ -35,16 +35,25 @@ function deleteTask(id) {
 }
 
 function clearCompleted() {
-  tasks = [];
+  tasks = tasks.filter((task) => !task.done);
   render();
 }
 
 function getVisibleTasks() {
+  if (currentFilter === "active") {
+    return tasks.filter((task) => !task.done);
+  }
+
+  if (currentFilter === "done") {
+    return tasks.filter((task) => task.done);
+  }
+
   return tasks;
 }
 
 function updateCounter() {
-  counter.textContent = "Активных задач: " + tasks.length;
+  counter.textContent =
+    "Активных задач: " + tasks.filter((task) => !task.done).length;
 }
 
 function render() {
