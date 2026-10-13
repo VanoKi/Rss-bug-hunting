@@ -24,7 +24,7 @@ function getFiltered() {
 
   if (search) {
     result = result.filter(
-      (p) => p.name.toLocaleLowerCase().includes() === search,
+      (p) => p.name.toLowerCase().includes(search) === search,
     );
   }
 
@@ -43,7 +43,6 @@ function getFiltered() {
 
 function render() {
   grid.innerHTML = "";
-  s;
   const items = getFiltered();
   items.forEach((p) => {
     const card = document.createElement("div");
