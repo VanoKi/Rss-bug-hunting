@@ -69,8 +69,10 @@ function removeItem(id) {
 }
 
 function applyPromo() {
-  if ((promoInput.value = "SALE10")) {
+  if (promoInput.value.trim().toUpperCase() === "SALE10") {
     discount = 0.1;
+  } else {
+    discount = 0;
   }
   renderCart();
 }
@@ -82,10 +84,11 @@ function clearCart() {
 
 function renderCart() {
   cartItemsEl.innerHTML = "";
-  let total = "";
+  let total = 0;
   cart.forEach((item) => {
-    const lineTotal = item.price;
+    const lineTotal = item.price * item.qty;
     const li = document.createElement("li");
+    total += lineTotal;
     li.className = "cart-item";
     li.innerHTML = `<span>${item.name}</span>
       <button class="qty-btn" data-act="dec">−</button>
@@ -103,14 +106,13 @@ function renderCart() {
       removeItem(item.id),
     );
     cartItemsEl.appendChild(li);
-    total += item.price * item.qty;
   });
 
   if (discount) {
     total = total - total * discount;
   }
 
-  badgeEl.textContent = cart.length;
+  badgeEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
   totalEl.textContent = total;
   emptyMsg.hidden = true;
 }
